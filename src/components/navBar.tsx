@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Categories from "./categories";
 
 export default function navBar() {
   const [category, setCategory] = useState<string[]>([]);
@@ -46,6 +45,13 @@ export default function navBar() {
           >
             Home
           </Link>
+
+          <Link
+            className="hover:text-slate-500 transition-all font-poppins duration-75"
+            to="/cartApi"
+          >
+            cart
+          </Link>
           {/* ////////////////////////////////////////////////////////////////////////////// */}
           <div
             onClick={() => {
@@ -55,7 +61,6 @@ export default function navBar() {
             onMouseEnter={() => {
               setShowCategories(false);
               setShowProducts(!showProducts);
-            
             }}
             className="relative cursor-pointer"
           >
@@ -136,7 +141,13 @@ export default function navBar() {
             Contact us
           </Link>
         </div>
-        <div className="w-auto h-full flex justify-center items-center p-2">
+        <div className="w-auto h-full bg-slate-950 flex justify-center items-center gap-5 p-2">
+          <Link
+            className="hover:text-slate-500 text-white transition-all duration-75 font-poppins"
+            to="/register"
+          >
+            Register
+          </Link>
           <button className="flex flex-row items-center gap-3 px-4 py-2 bg-black text-white font-semibold rounded-sm border border-white hover:bg-gray-800 transition duration-300">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -153,8 +164,10 @@ export default function navBar() {
                 d="M5 2l1.39 2.79a1 1 0 00.9.61h12.5a1 1 0 01.98 1.2l-1.2 6A1 1 0 0118.5 13H8.21a1 1 0 00-.98.8L6.3 17H19M6 22a1 1 0 100-2 1 1 0 000 2zm10 0a1 1 0 100-2 1 1 0 000 2z"
               />
             </svg>
-            <span className="text-sm whitespace-nowrap font-poppins">Shop Cart</span>
-            </button>
+            <span className="text-sm whitespace-nowrap font-poppins">
+              Shop Cart
+            </span>
+          </button>
         </div>
       </div>
     </>

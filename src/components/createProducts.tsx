@@ -1,39 +1,25 @@
 import React, { useState } from "react";
 import { ProductCreatedType } from "../types/productsTypes";
 export default function CreateProducts() {
-
   const [formData, setFormData] = useState<ProductCreatedType>({
     id: "",
     title: "",
-    price: 0 ,
+    price: 0,
     description: "",
-    image: null ,
+    image: null,
   });
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log(e.target.image);
-     
-    setFormData({
-        id: crypto.randomUUID(), 
-        title : e.target.title.value , 
-        price :  parseFloat(e.target.price.value) ,
-        description : e.target.description.value ,
-        image :e.target.image
-    })
 
-    // fetch("https://fakestoreapi.com/products", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     title: "test product",
-    //     price: 13.5,
-    //     description: "lorem ipsum set",
-    //     image: "https://i.pravatar.cc",
-    //     category: "electronic",
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((json) => console.log(json));
+    setFormData({
+      id: crypto.randomUUID(),
+      title: e.target.title.value,
+      price: parseFloat(e.target.price.value),
+      description: e.target.description.value,
+      image: e.target.image,
+    });
   };
 
   return (
