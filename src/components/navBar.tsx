@@ -5,16 +5,16 @@ export default function navBar() {
   const [category, setCategory] = useState<string[]>([]);
   const [showCategories, setShowCategories] = useState<Boolean>(false);
   const [showProducts, setShowProducts] = useState<Boolean>(false);
+  const productsUrlCategory = import.meta.env.VITE_PRODUCTS_CATEGORIES_URL;
 
   useEffect(() => {
     const savedCategories = localStorage.getItem("category");
-
     if (savedCategories) {
       const categories = JSON.parse(savedCategories);
       setCategory(categories);
       console.log("Loaded categories from localStorage:", categories);
     } else {
-      fetch("https://fakestoreapi.com/products/categories")
+      fetch(productsUrlCategory)
         .then((res) => res.json())
         .then((data) => {
           setCategory(data);
@@ -135,7 +135,7 @@ export default function navBar() {
             )}
           </div>
           <Link
-            className="hover:text-slate-500 transition-all duration-75 font-poppins"
+            className="hover:text-slate-500 transition-all duration-75 whitespace-nowrap font-poppins"
             to="/ContactUs"
           >
             Contact us

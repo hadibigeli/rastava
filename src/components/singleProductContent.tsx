@@ -1,12 +1,11 @@
 import { Axios } from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ProductsTypes } from "../types/productsTypes";
+import { ProductsTypes } from "../types/typesFiles";
 
 export default function SingleProductContent() {
   const { id } = useParams();
   const [product, setProduct] = useState<ProductsTypes>();
-  const [productNumbers, setProductNumbers] = useState<Number>();
 
   useEffect(() => {
     if (id) {
@@ -17,7 +16,6 @@ export default function SingleProductContent() {
           .then((res: any) => res.json())
           .then((data: ProductsTypes) => {
             setProduct(data);
-            console.log(data);
           })
           .catch((error: any) => {
             console.error("There was an error fetching the product:", error);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ProductCreatedType } from "../types/productsTypes";
+import { ProductCreatedType } from "../types/typesFiles";
 export default function CreateProducts() {
   const [formData, setFormData] = useState<ProductCreatedType>({
     id: "",

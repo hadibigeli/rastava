@@ -1,5 +1,5 @@
 import { Navigate, useNavigate } from "react-router-dom";
-import { ProductsTypes } from "../types/productsTypes";
+import { ProductsTypes } from "../types/typesFiles";
 
 export default function SingleProducts({
   product,
@@ -21,7 +21,7 @@ export default function SingleProducts({
         className="h-[450px] flex flex-col justify-between p-4 m-2
          bg-white border border-gray-200 shadow-lg rounded-lg
           hover:shadow-2xl transition-shadow duration-300"
-        onClick={()=>handleClick(id)}
+        onClick={()=>{id!== null && handleClick(id)}}
       >
         <img
           src={image}

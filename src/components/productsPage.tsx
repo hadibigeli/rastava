@@ -3,14 +3,14 @@ import { useState, useEffect } from "react";
 
 import axios from "axios";
 import SingleProducts from "./ProductsPageContent";
-import { ProductsTypes } from "../types/productsTypes";
+import { ProductsTypes } from "../types/typesFiles";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<ProductsTypes[]>([]);
-
+  const productAPI = import.meta.env.VITE_PRODUCTS_API_URL
   useEffect(() => {
     axios
-      .get<ProductsTypes[]>("https://fakestoreapi.com/products")
+      .get<ProductsTypes[]>(productAPI)
       .then((response: any) => {
         setProducts(response.data);
       })
@@ -25,6 +25,7 @@ export default function ProductsPage() {
         {products.map((item) => (
           <SingleProducts key={item.id} product={item} />
         ))}
+      
       </div>
     </div>
   );

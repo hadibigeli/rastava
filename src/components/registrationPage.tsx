@@ -1,9 +1,26 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function RegistrationPage() {
+interface RegisterType {
+  email: string;
+  username: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+  city: string;
+  street: string;
+  number: string;
+  zipcode: string;
+  lat: string;
+  long: string;
+  phone: string;
+}
 
-  const [formData, setFormData] = useState({
+export default function RegistrationPage() {
+  
+  const registerUserUrl = import.meta.env.VITE_REGISTER_USER_URL;
+
+  const [formData, setFormData] = useState<RegisterType>({
     email: "",
     username: "",
     password: "",
@@ -23,42 +40,41 @@ export default function RegistrationPage() {
     setFormData({ ...formData, [name]: value });
   };
 
- const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const userPayload = {
-    email: formData.email,
-    username: formData.username,
-    password: formData.password,
-    name: {
-      firstname: formData.firstname,
-      lastname: formData.lastname,
-    },
-    address: {
-      city: formData.city,
-      street: formData.street,
-      number: Number(formData.number),
-      zipcode: formData.zipcode,
-      geolocation: {
-        lat: formData.lat,
-        long: formData.long,
+    const userPayload = {
+      email: formData.email,
+      username: formData.username,
+      password: formData.password,
+      name: {
+        firstname: formData.firstname,
+        lastname: formData.lastname,
       },
-    },
-    phone: formData.phone,
+      address: {
+        city: formData.city,
+        street: formData.street,
+        number: Number(formData.number),
+        zipcode: formData.zipcode,
+        geolocation: {
+          lat: formData.lat,
+          long: formData.long,
+        },
+      },
+      phone: formData.phone,
+    };
+
+    axios
+      .post(registerUserUrl, userPayload)
+      .then((res) => {
+        console.log("User successfully registered:", res);
+        alert("Registration successful!");
+      })
+      .catch((error) => {
+        console.error("Error during registration:", error);
+        alert("Registration failed. Please try again.");
+      });
   };
-
-  axios
-    .post("https://fakestoreapi.com/users", userPayload)
-    .then((res) => {
-      console.log("User successfully registered:", res.data);
-      alert("Registration successful!");
-    })
-    .catch((error) => {
-      console.error("Error during registration:", error);
-      alert("Registration failed. Please try again.");
-    });
-};
-
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6">
