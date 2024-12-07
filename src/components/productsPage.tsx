@@ -8,7 +8,7 @@ import {
   setItems,
   getProductsQuantity,
 } from "../store/shopCartSlice/shopCartSlice";
-import ProductsPageContent from "./ProductsPageContent";
+import ProductsPageContent from "./productsPageContent";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<ProductsTypes[]>([]);

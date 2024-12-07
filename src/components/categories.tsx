@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import ProductsPageContent from "./ProductsPageContent";
+import ProductsPageContent from "./productsPageContent";
+import { useDispatch } from "react-redux";
+import { setItems } from "../store/shopCartSlice/shopCartSlice";
 
 export default function Categories() {
   const [data, setData] = useState([]);
   const location = useLocation();
   const category = location.state?.category;
-
+  const dispatch = useDispatch();
   if (!category) {
     return <h1 className="text-red-500">The category was not found.</h1>;
   }
@@ -16,9 +18,11 @@ export default function Categories() {
       .then((res) => res.json())
       .then((fetchedData) => {
         setData(fetchedData);
+        dispatch(setItems(fetchedData));
       })
       .catch((error) => console.log(`Something went wrong: ${error}`));
   }, [category]);
+
   return (
     <div className="w-full min-h-screen bg-slate-900 p-4">
       <h2 className="text-white text-xl font-bold mb-10 text-start">

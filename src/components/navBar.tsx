@@ -170,7 +170,7 @@ export default function navBar() {
                 d="M5 2l1.39 2.79a1 1 0 00.9.61h12.5a1 1 0 01.98 1.2l-1.2 6A1 1 0 0118.5 13H8.21a1 1 0 00-.98.8L6.3 17H19M6 22a1 1 0 100-2 1 1 0 000 2zm10 0a1 1 0 100-2 1 1 0 000 2z"
               />
             </svg>
-            <span className="text-sm whitespace-nowrap font-poppins">
+            <span onClick={()=>navigate('/shopCart')} className="text-sm whitespace-nowrap font-poppins">
               Shop Cart
             </span>
           </button>

@@ -3,6 +3,7 @@ import { ProductsTypes, shopCartProductsTypes } from "../../types/typesFiles";
 
 const initialState = {
   items: [] as shopCartProductsTypes[],
+  totalQuantity: 0 as Number,
   productById: {
     id: 0,
     title: "",
@@ -23,13 +24,13 @@ export const shopCartSlice = createSlice({
   initialState,
   reducers: {
     setItems: (state, action) => {
-      if (state.items.length === 0) {
+      // if (state.items.length === 0) {
         const newItems = action.payload.map((item: any) => ({
           ...item,
           quantity: 0,
         }));
         state.items = newItems;
-      }
+      // }
     },
 
     getProductsQuantity: (state, action) => {
@@ -66,14 +67,19 @@ export const shopCartSlice = createSlice({
     deleteFromCart: (state, action) => {
       const id = action.payload;
       console.log(id);
-      
+
       state.items = state.items.map((item) =>
         item.id === id ? { ...item, quantity: 0 } : item
       );
       console.log(state.items);
-
     },
-    getTotalAmount: (state, action) => {},
+    getTotalAmount: (state) => {
+      const totalQuantity = state.items.reduce((total, item) => {
+        return item.quantity !== 0 ? total + item.quantity : total;
+      }, 0);
+
+      state.totalQuantity = totalQuantity;
+    },
   },
 });
 
