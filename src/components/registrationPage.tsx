@@ -77,7 +77,7 @@ export default function RegistrationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-slate-800 flex flex-col items-center justify-center p-6">
       <h1 className="text-3xl font-bold text-blue-500 mb-4">Register</h1>
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-lg"

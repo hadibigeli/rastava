@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductsPage from "./components/productsPage";
-import SingleProducts from "./components/ProductsPageContent";
+import SingleProducts from "./components/productsPageContent";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/home";
 import NavBar from "./components/navBar";
@@ -11,6 +11,7 @@ import Categories from "./components/categories";
 import CreateProducts from "./components/createProducts";
 import TestCartApi from "./components/testCartApi";
 import RegistrationPage from "./components/registrationPage";
+import LoginPage from "./components/loginPage";
 export default function App() {
   return (
     <>
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/createProducts" element={<CreateProducts />} />
           <Route path="/cartApi" element={<TestCartApi />} />
           <Route path="/register" element={<RegistrationPage />} />
+          <Route path="/login" element={<LoginPage/>} />
         </Routes>
       </div>
     </>

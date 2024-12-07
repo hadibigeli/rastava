@@ -12,7 +12,6 @@ export default function navBar() {
     if (savedCategories) {
       const categories = JSON.parse(savedCategories);
       setCategory(categories);
-      console.log("Loaded categories from localStorage:", categories);
     } else {
       fetch(productsUrlCategory)
         .then((res) => res.json())
@@ -46,12 +45,7 @@ export default function navBar() {
             Home
           </Link>
 
-          <Link
-            className="hover:text-slate-500 transition-all font-poppins duration-75"
-            to="/cartApi"
-          >
-            cart
-          </Link>
+       
           {/* ////////////////////////////////////////////////////////////////////////////// */}
           <div
             onClick={() => {
@@ -112,8 +106,8 @@ export default function navBar() {
             </div>
             {showCategories && (
               <div
-                className="absolute top-full rounded-sm left-0 mt-2 bg-black bg-opacity-80 
-             shadow-lg p-2"
+                className="absolute top-full rounded-lg left-0 mt-2 bg-black bg-opacity-80 
+             shadow-lg p-2 "
                 onMouseLeave={(e) => {
                   e.preventDefault();
                   setShowCategories(false);
@@ -142,12 +136,24 @@ export default function navBar() {
           </Link>
         </div>
         <div className="w-auto h-full bg-slate-950 flex justify-center items-center gap-5 p-2">
-          <Link
-            className="hover:text-slate-500 text-white transition-all duration-75 font-poppins"
-            to="/register"
-          >
-            Register
-          </Link>
+          <div className="w-auto h-auto flex hover:text-slate-500 flex-row
+           justify-center items-center gap-1 ">
+            <Link
+              className="hover:text-slate-500 text-white transition-all duration-75 
+              font-poppins"
+              to="/register"
+            >
+              Register
+            </Link>
+            <span className="text-white font-poppins m-1">|</span>
+            <Link
+              className="hover:text-slate-500 text-white transition-all duration-75 font-poppins"
+              to="/login"
+            >
+              Login
+            </Link>
+  
+          </div>
           <button className="flex flex-row items-center gap-3 px-4 py-2 bg-black text-white font-semibold rounded-sm border border-white hover:bg-gray-800 transition duration-300">
             <svg
               xmlns="http://www.w3.org/2000/svg"
