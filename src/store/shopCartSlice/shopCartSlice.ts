@@ -5,7 +5,7 @@ const initialState = {
   items: [] as shopCartProductsTypes[],
   totalQuantity: 0 as Number,
   productSelected: [] as shopCartProductsTypes[] | undefined,
-  totalPrice : 0  as Number | null,   
+  totalPrice: 0 as Number | null,
 };
 
 export const shopCartSlice = createSlice({
@@ -36,17 +36,13 @@ export const shopCartSlice = createSlice({
 
     addItemToCart: (state, action) => {
       const id = action.payload;
-      console.log(id);
-
       state.items = state.items.map((item) =>
         item.id === id ? { ...item, quantity: item.quantity + 1 } : item
       );
-      console.log(state.items);
     },
 
     removeItemFromCart: (state, action) => {
       const id = action.payload;
-      console.log(id);
 
       state.items = state.items.map((item) =>
         item.id === id ? { ...item, quantity: item.quantity - 1 } : item
@@ -56,12 +52,10 @@ export const shopCartSlice = createSlice({
 
     deleteFromCart: (state, action) => {
       const id = action.payload;
-      console.log(id);
 
       state.items = state.items.map((item) =>
         item.id === id ? { ...item, quantity: 0 } : item
       );
-      console.log(state.items);
     },
     getTotalAmount: (state) => {
       const totalQuantity = state.productSelected?.reduce((total, item) => {
@@ -77,6 +71,10 @@ export const shopCartSlice = createSlice({
       const totalPrice = state.productSelected?.reduce((total, item) => {
         return total + (item?.price ?? 0) * (item?.quantity ?? 0);
       }, 0);
+
+      if (totalPrice) {
+        state.totalPrice = totalPrice;
+      }
     },
   },
 });
@@ -89,6 +87,7 @@ export const {
   deleteFromCart,
   getTotalAmount,
   deleteFromShopCart,
+  getTotalPrice,
 } = shopCartSlice.actions;
 
 export default shopCartSlice.reducer;

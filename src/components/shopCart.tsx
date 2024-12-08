@@ -1,19 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { shopCartProductsTypes } from "../types/typesFiles";
 import {
   getTotalAmount,
   getProductsQuantity,
   deleteFromShopCart,
+  getTotalPrice,
 } from "../store/shopCartSlice/shopCartSlice";
 
 export default function ShopCart() {
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getTotalAmount());
+      await dispatch(getProductsQuantity());
+      await dispatch(getTotalPrice());
+    };
+  
+    fetchData();
+  }, []);
+
   const totalQuantity = useSelector(
     (state: any) => state.shopCart.totalQuantity
   );
   const productSelected = useSelector(
     (state: any) => state.shopCart.productSelected
   );
+  const totalPrice = useSelector((state: any) => state.shopCart.totalPrice);
   const dispatch = useDispatch();
 
   return (
@@ -24,18 +36,18 @@ export default function ShopCart() {
             Your Shopping Cart
           </h1>
 
-          <p className="text-gray-600 text-center text-sm mb-6">
+          <div className="text-gray-600 text-center text-sm mb-6">
             You have{" "}
             <span>
               {
-                <ul className="w-full h-auto flex flex-col justify-start items-start bg-white rounded-lg shadow-lg px-6 py-4">
+                <div className="w-full h-auto flex flex-col justify-start items-start bg-white rounded-lg shadow-lg px-6 py-4">
                   {productSelected && productSelected.length > 0 ? (
                     productSelected.map(
                       (
                         item: shopCartProductsTypes | undefined,
                         index: number
                       ) => (
-                        <li
+                        <div
                           key={index}
                           className="w-full border-b last:border-b-0 flex flex-col px-4 py-3
        bg-slate-50 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
@@ -66,34 +78,33 @@ export default function ShopCart() {
                               {item?.quantity ?? 0}
                             </span>
                           </div>
-                        </li>
+                        </div>
                       )
                     )
                   ) : (
                     <p className="text-gray-500">No products available.</p>
                   )}
-                </ul>
+                </div>
               }
             </span>
-          </p>
-          <div className="w-auto h-auto flex flex-row gap-5 justify-between items-center">
-            <button
-              className="bg-red-500  hover:bg-red-600 font-bold text-white px-4 py-2 rounded-lg"
-              onClick={() => {
-                dispatch(deleteFromShopCart());
-              }}
-            >
-              Delete 
-            </button>
-            <button
-              className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg shadow-md transition-all duration-200"
-              onClick={() => {
-                dispatch(getTotalAmount());
-                dispatch(getProductsQuantity());
-              }}
-            >
-              Update Cart
-            </button>
+          </div>
+          <div className="w-auto h-auto flex flex-col gap-5 justify-between items-center">
+            <div className="flex flex-row justify-center gap-4 font-semibold font-poppins items-center px-4 py-2
+            rounded-sm bg-slate-200 m-2">
+              <span className="fon">Total Price: </span>
+              <span>{totalPrice}</span>
+            </div>
+            <div className="w-auto h-auto flex flex-row gap-5 justify-between items-center">
+              <button
+                className="bg-red-500  hover:bg-red-600 font-bold text-white px-4 py-2 rounded-lg"
+                onClick={() => {
+                  dispatch(deleteFromShopCart());
+                }}
+              >
+                Delete
+              </button>
+             
+            </div>
           </div>
         </div>
       </div>
