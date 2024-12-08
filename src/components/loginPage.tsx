@@ -9,8 +9,8 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null); 
-    setLoading(true); 
+    setError(null);
+    setLoading(true);
 
     try {
       const response = await fetch("https://fakestoreapi.com/auth/login", {
@@ -36,7 +36,7 @@ export default function LoginPage() {
       setError("Something went wrong, please try again.");
       console.error(error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
