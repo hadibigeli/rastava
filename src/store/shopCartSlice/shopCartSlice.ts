@@ -66,6 +66,7 @@ export const shopCartSlice = createSlice({
     },
     deleteFromShopCart: (state) => {
       state.productSelected = [];
+      state.totalPrice = 0
     },
     getTotalPrice: (state) => {
       const totalPrice = state.productSelected?.reduce((total, item) => {
