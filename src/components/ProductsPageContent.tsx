@@ -17,9 +17,7 @@ export default function ProductsPageContent({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showBox, setShowBox] = useState<Boolean>(false);
-
   const items = useSelector((state: any) => state.shopCart.items);
-
   const item = items.find((item: any) => item.id === id);
   const quantity = item ? item.quantity : 0;
 

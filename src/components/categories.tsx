@@ -22,7 +22,7 @@ export default function Categories() {
       })
       .catch((error) => console.log(`Something went wrong: ${error}`));
 
-    dispatch(getProductsQuantity());
+    // dispatch(getProductsQuantity());
   }, [category]);
 
   return (

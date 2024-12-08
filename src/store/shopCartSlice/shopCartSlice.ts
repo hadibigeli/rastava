@@ -26,12 +26,20 @@ export const shopCartSlice = createSlice({
       );
 
       if (product.length !== 0) {
-        state.productSelected = [...(state.productSelected || []), ...product];
+        const uniqueProducts = product.filter(
+          (newItem) =>
+            !(state.productSelected || []).some(
+              (existingItem) => existingItem.id === newItem.id
+            )
+        );
+
+        state.productSelected = [
+          ...(state.productSelected || []),
+          ...uniqueProducts,
+        ];
       } else {
         state.productSelected = undefined;
       }
-
-      console.log("Product Selected:", state.productSelected);
     },
 
     addItemToCart: (state, action) => {
@@ -63,10 +71,11 @@ export const shopCartSlice = createSlice({
       }, 0);
 
       state.totalQuantity = totalQuantity || 0;
+      console.log(totalQuantity);
     },
     deleteFromShopCart: (state) => {
       state.productSelected = [];
-      state.totalPrice = 0
+      state.totalPrice = 0;
     },
     getTotalPrice: (state) => {
       const totalPrice = state.productSelected?.reduce((total, item) => {
@@ -76,6 +85,12 @@ export const shopCartSlice = createSlice({
       if (totalPrice) {
         state.totalPrice = totalPrice;
       }
+    },
+    deleteFromFinalListsCart: (state, action) => {
+      const id = action.payload;
+      state.productSelected = state.productSelected?.filter(
+        (item) => item.id !== id
+      );
     },
   },
 });
@@ -89,6 +104,7 @@ export const {
   getTotalAmount,
   deleteFromShopCart,
   getTotalPrice,
+  deleteFromFinalListsCart,
 } = shopCartSlice.actions;
 
 export default shopCartSlice.reducer;

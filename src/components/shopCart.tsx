@@ -6,14 +6,17 @@ import {
   getProductsQuantity,
   deleteFromShopCart,
   getTotalPrice,
+  deleteFromFinalListsCart
 } from "../store/shopCartSlice/shopCartSlice";
 
 export default function ShopCart() {
+  
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getTotalAmount());
       await dispatch(getProductsQuantity());
       await dispatch(getTotalPrice());
+    
     };
   
     fetchData();
@@ -25,7 +28,9 @@ export default function ShopCart() {
   const productSelected = useSelector(
     (state: any) => state.shopCart.productSelected
   );
-  const totalPrice = useSelector((state: any) => state.shopCart.totalPrice);
+  let totalPrice = useSelector((state: any) => state.shopCart.totalPrice);
+  totalPrice = productSelected && productSelected.length > 0 ?   totalPrice : 0
+
   const dispatch = useDispatch();
 
   return (
@@ -48,37 +53,47 @@ export default function ShopCart() {
                         index: number
                       ) => (
                         <div
-                          key={index}
-                          className="w-full border-b last:border-b-0 flex flex-col px-4 py-3
-       bg-slate-50 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
-                        >
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="font-bold text-gray-800">
-                              Title:
-                            </span>
-                            <span className="text-gray-600 line-clamp-1 whitespace-normal truncate">
-                              {item?.title || "N/A"}
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="font-bold text-gray-800">
-                              Price:
-                            </span>
-                            <span className="text-gray-600">
-                              {item?.price
-                                ? `$${item.price.toFixed(2)}`
-                                : "N/A"}
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="font-bold text-gray-800">
-                              Quantity:
-                            </span>
-                            <span className="text-gray-600">
-                              {item?.quantity ?? 0}
-                            </span>
-                          </div>
+                        key={index}
+                        className="w-full h-auto border-b last:border-b-0 flex flex-col px-4 py-3
+                         bg-slate-50 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+                      >
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="font-bold text-gray-800">
+                            Title:
+                          </span>
+                          <span className="text-gray-600 line-clamp-1 whitespace-normal truncate">
+                            {item?.title || "N/A"}
+                          </span>
                         </div>
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="font-bold text-gray-800">
+                            Price:
+                          </span>
+                          <span className="text-gray-600">
+                            {item?.price ? `$${item.price.toFixed(2)}` : "N/A"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="font-bold text-gray-800">
+                            Quantity:
+                          </span>
+                          <span className="text-gray-600">
+                            {item?.quantity ?? 0}
+                          </span>
+                        </div>
+                        <div className="flex justify-end mt-2">
+                          <button
+                            onClick={() => {dispatch(deleteFromFinalListsCart(item?.id))
+                              dispatch(getTotalPrice());
+                            }}
+                            className="bg-red-600 text-white py-1 px-3 rounded-md
+                             hover:bg-red-700 transition duration-300"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                      
                       )
                     )
                   ) : (
@@ -92,13 +107,14 @@ export default function ShopCart() {
             <div className="flex flex-row justify-center gap-4 font-semibold font-poppins items-center px-4 py-2
             rounded-sm bg-slate-200 m-2">
               <span className="fon">Total Price: </span>
-              <span>{totalPrice}</span>
+              <span>${totalPrice}</span>
             </div>
             <div className="w-auto h-auto flex flex-row gap-5 justify-between items-center">
               <button
                 className="bg-red-500  hover:bg-red-600 font-bold text-white px-4 py-2 rounded-lg"
                 onClick={() => {
                   dispatch(deleteFromShopCart());
+                  dispatch(getTotalPrice());
                 }}
               >
                 Delete
