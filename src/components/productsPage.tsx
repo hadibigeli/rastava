@@ -29,6 +29,8 @@ export default function ProductsPage() {
       .catch((error: any) => {
         console.error("There was an error fetching the products:", error);
       });
+      
+      dispatch(getProductsQuantity())
   } , []);
 
 

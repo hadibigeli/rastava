@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function navBar() {
+export default function NavBar() {
   const [category, setCategory] = useState<string[]>([]);
   const [showCategories, setShowCategories] = useState<Boolean>(false);
   const [showProducts, setShowProducts] = useState<Boolean>(false);
+  const [menuOpen, setMenuOpen] = useState<Boolean>(false);
   const productsUrlCategory = import.meta.env.VITE_PRODUCTS_CATEGORIES_URL;
+  const navigate: any = useNavigate();
 
   useEffect(() => {
     const savedCategories = localStorage.getItem("category");
@@ -22,103 +24,156 @@ export default function navBar() {
         .catch((error) => console.log(`Something went wrong: ${error}`));
     }
   }, []);
-  ///////////////////////////////////////////////////////////////////////////
-  const navigate: any = useNavigate();
 
   const handleCategorySelect = (category: string) => {
     navigate("/category", { state: { category } });
   };
 
-  ///////////////////////////////////////////////////////////////////////////
-
   return (
     <>
-      <div className="w-full h-auto flex flex-row justify-between  bg-black">
-        <div
-          className="w-full h-auto bg-slate-950 flex flex-row 
-              gap-10 text-white p-2 items-center"
-        >
-          <Link
-            className="hover:text-slate-500 transition-all font-poppins duration-75"
-            to="/"
-          >
-            Home
-          </Link>
-
-       
-          {/* ////////////////////////////////////////////////////////////////////////////// */}
-          <div
-            onClick={() => {
-              setShowCategories(false);
-              setShowProducts(!showProducts);
-            }}
-            onMouseEnter={() => {
-              setShowCategories(false);
-              setShowProducts(!showProducts);
-            }}
-            className="relative cursor-pointer"
-          >
-            <span className="hover:text-slate-500 font-poppins transition-all duration-75">
-              Products
-            </span>
-            {showProducts && (
-              <div
-                onMouseLeave={(e) => {
-                  setShowProducts(false);
-                }}
-                className="absolute w-auto p-4 rounded-md font-poppins shadow-lg space-y-2
-               top-full bg-black bg-opacity-80 left-0"
-              >
-                <Link
-                  className="block  transition-all
-                 whitespace-nowrap duration-75 mt-2 p-2 rounded-sm hover:text-black hover:bg-white"
-                  to="/products"
-                >
-                  Go to Products
-                </Link>
-
-                <Link
-                  to="/createProducts"
-                  className="block p-2 rounded-sm  hover:text-black hover:bg-white
-                 transition-all duration-75 mt-2"
-                >
-                  Create
-                </Link>
-              </div>
-            )}
-          </div>
-          {/* //////////////////////////////////////////////////////////////////////////////////// */}
-          <div className="relative">
+      <nav className="w-full bg-black">
+        {/* Desktop and tablet */}
+        <div className="hidden md:flex flex-row justify-between items-center bg-black text-white p-4">
+          <div className="flex items-center gap-10">
+            <Link to="/" className="hover:text-slate-500 transition duration-200">
+              Home
+            </Link>
             <div
-              className="hover:text-slate-500 transition-all font-poppins duration-75"
-              onMouseEnter={(e) => {
-                e.preventDefault();
-                setShowProducts(false);
-                setShowCategories(!showCategories);
+              onMouseEnter={() => {
+                setShowCategories(false);
+                setShowProducts(true);
               }}
-              onClick={(e) => {
-                e.preventDefault();
-                setShowProducts(false);
-                setShowCategories(!showCategories);
-              }}
+              onMouseLeave={() => setShowProducts(false)}
+              className="relative cursor-pointer"
             >
-              Categories
+              <span className="hover:text-slate-500 transition duration-200">
+                Products
+              </span>
+              {showProducts && (
+                <div className="absolute top-full left-0 bg-black bg-opacity-80 shadow-lg rounded-lg p-4 space-y-2">
+                  <Link
+                    to="/products"
+                    className="block hover:text-black whitespace-nowrap hover:bg-white p-2 rounded transition duration-200"
+                  >
+                    Go to Products
+                  </Link>
+                  <Link
+                    to="/createProducts"
+                    className="block hover:text-black hover:bg-white p-2 rounded transition duration-200"
+                  >
+                    Create
+                  </Link>
+                </div>
+              )}
             </div>
-            {showCategories && (
-              <div
-                className="absolute top-full rounded-lg left-0 mt-2 bg-black bg-opacity-80 
-             shadow-lg p-2 "
-                onMouseLeave={(e) => {
-                  e.preventDefault();
-                  setShowCategories(false);
-                }}
+            <div
+              onMouseEnter={() => {
+                setShowProducts(false);
+                setShowCategories(true);
+              }}
+              onMouseLeave={() => setShowCategories(false)}
+              className="relative cursor-pointer"
+            >
+              <span className="hover:text-slate-500 transition duration-200">
+                Categories
+              </span>
+              {showCategories && (
+                <div className="absolute top-full left-0 bg-black bg-opacity-80 shadow-lg rounded-lg p-4 space-y-2">
+                  <ul>
+                    {category?.map((item) => (
+                      <li
+                        key={item}
+                        className="hover:text-black whitespace-nowrap hover:bg-white p-2 rounded transition duration-200"
+                        onClick={() => handleCategorySelect(item)}
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+            <Link to="/ContactUs" className="hover:text-slate-500 transition duration-200">
+              Contact Us
+            </Link>
+          </div>
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-1">
+              <Link to="/register" className="hover:text-slate-500 transition duration-200">
+                Register
+              </Link>
+              <span>|</span>
+              <Link to="/login" className="hover:text-slate-500 transition duration-200">
+                Login
+              </Link>
+            </div>
+            <button
+              onClick={() => navigate("/shopCart")}
+              className="flex items-center gap-3 px-4 py-2 bg-black border border-white text-white rounded-sm hover:bg-gray-800 transition duration-300"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
               >
-                <ul role="menu" className=" p-4 rounded-md shadow-lg space-y-2">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 2l1.39 2.79a1 1 0 00.9.61h12.5a1 1 0 01.98 1.2l-1.2 6A1 1 0 0118.5 13H8.21a1 1 0 00-.98.8L6.3 17H19M6 22a1 1 0 100-2 1 1 0 000 2zm10 0a1 1 0 100-2 1 1 0 000 2z"
+                />
+              </svg>
+              <span>Shop Cart</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile */}
+        <div className="flex md:hidden flex-col w-full bg-black text-white p-4">
+          <div className="flex justify-between items-center">
+            <span className="text-xl font-bold">Logo</span>
+            <button
+              className="p-2 border rounded-sm hover:bg-gray-800"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-6 h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          </div>
+          {menuOpen && (
+            <div className="flex flex-col space-y-4 mt-4">
+              <Link to="/" className="hover:text-slate-500 transition duration-200">
+                Home
+              </Link>
+              <Link to="/products" className="hover:text-slate-500 transition duration-200">
+                Products
+              </Link>
+              <Link to="/createProducts" className="hover:text-slate-500 transition duration-200">
+                Create
+              </Link>
+              <div>
+                <span className="hover:text-slate-500 transition duration-200 cursor-pointer">
+                  Categories
+                </span>
+                <ul className="pl-4 mt-2 space-y-2">
                   {category?.map((item) => (
                     <li
                       key={item}
-                      role="menuitem"
-                      className="text-white w-auto cursor-pointer font-poppins whitespace-nowrap hover:text-black hover:bg-white p-2 rounded transition duration-200"
+                      className="hover:text-black hover:bg-white p-2 rounded transition duration-200"
                       onClick={() => handleCategorySelect(item)}
                     >
                       {item}
@@ -126,56 +181,42 @@ export default function navBar() {
                   ))}
                 </ul>
               </div>
-            )}
-          </div>
-          <Link
-            className="hover:text-slate-500 transition-all duration-75 whitespace-nowrap font-poppins"
-            to="/ContactUs"
-          >
-            Contact us
-          </Link>
+              <Link to="/ContactUs" className="hover:text-slate-500 transition duration-200">
+                Contact Us
+              </Link>
+              <div className="flex items-center gap-2">
+                <Link to="/register" className="hover:text-slate-500 transition duration-200">
+                  Register
+                </Link>
+                <span>|</span>
+                <Link to="/login" className="hover:text-slate-500 transition duration-200">
+                  Login
+                </Link>
+              </div>
+              <button
+                onClick={() => navigate("/shopCart")}
+                className="flex items-center gap-3 px-4 py-2 bg-black border border-white text-white rounded-sm hover:bg-gray-800 transition duration-300"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 2l1.39 2.79a1 1 0 00.9.61h12.5a1 1 0 01.98 1.2l-1.2 6A1 1 0 0118.5 13H8.21a1 1 0 00-.98.8L6.3 17H19M6 22a1 1 0 100-2 1 1 0 000 2zm10 0a1 1 0 100-2 1 1 0 000 2z"
+                  />
+                </svg>
+                <span>Shop Cart</span>
+              </button>
+            </div>
+          )}
         </div>
-        <div className="w-auto h-full bg-slate-950 flex justify-center items-center gap-5 p-2">
-          <div className="w-auto h-auto flex hover:text-slate-500 flex-row
-           justify-center items-center gap-1 ">
-            <Link
-              className="hover:text-slate-500 text-white transition-all duration-75 
-              font-poppins"
-              to="/register"
-            >
-              Register
-            </Link>
-            <span className="text-white font-poppins m-1">|</span>
-            <Link
-              className="hover:text-slate-500 text-white transition-all duration-75 font-poppins"
-              to="/login"
-            >
-              Login
-            </Link>
-  
-          </div>
-          <button className="flex flex-row items-center gap-3 px-4 py-2 bg-black text-white font-semibold rounded-sm border border-white hover:bg-gray-800 transition duration-300">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                className="text-sm w-2 h-2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5 2l1.39 2.79a1 1 0 00.9.61h12.5a1 1 0 01.98 1.2l-1.2 6A1 1 0 0118.5 13H8.21a1 1 0 00-.98.8L6.3 17H19M6 22a1 1 0 100-2 1 1 0 000 2zm10 0a1 1 0 100-2 1 1 0 000 2z"
-              />
-            </svg>
-            <span onClick={()=>navigate('/shopCart')} className="text-sm whitespace-nowrap font-poppins">
-              Shop Cart
-            </span>
-          </button>
-        </div>
-      </div>
+      </nav>
     </>
   );
 }

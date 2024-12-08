@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ProductsPageContent from "./productsPageContent";
 import { useDispatch } from "react-redux";
-import { setItems } from "../store/shopCartSlice/shopCartSlice";
+import { setItems, getProductsQuantity } from "../store/shopCartSlice/shopCartSlice";
 
 export default function Categories() {
   const [data, setData] = useState([]);
@@ -21,6 +21,8 @@ export default function Categories() {
         dispatch(setItems(fetchedData));
       })
       .catch((error) => console.log(`Something went wrong: ${error}`));
+
+    dispatch(getProductsQuantity());
   }, [category]);
 
   return (
