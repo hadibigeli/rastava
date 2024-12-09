@@ -23,8 +23,6 @@ git clone https://github.com/hadibigeli/rastava.git
 
 npm install
 
-npm start
+npm run dev
 
-# or if you're using yarn
 
-yarn start
