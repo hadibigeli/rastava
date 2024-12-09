@@ -1,14 +1,7 @@
-# Project Title
+# rastava shop by hdBigdeli
 
 A brief description of what your project does and its purpose.
 
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Technologies](#technologies)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
